@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49ad40e7-4790-4f4f-9f7e-805ba252ce1f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/app_setup.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/404.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/500.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/auth/email/confirm.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/email.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/email.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/auth/unconfirmed.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/auth/unconfirmed.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-dev.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/data-dev.sqlite" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,13 +79,21 @@
       <option name="project" value="LOCAL" />
       <updated>1580958503697</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add emails.py #2020.02.06 2PM">
+      <created>1581016015312</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1581016015312</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add RegisterForm" />
     <MESSAGE value="add ConfirmRoute, UnconfirmedRoute" />
-    <option name="LAST_COMMIT_MESSAGE" value="add ConfirmRoute, UnconfirmedRoute" />
+    <MESSAGE value="add emails.py #2020.02.06 2PM" />
+    <option name="LAST_COMMIT_MESSAGE" value="add emails.py #2020.02.06 2PM" />
   </component>
   <component name="WindowStateProjectService">
     <state x="46" y="191" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581015623511">
@@ -100,9 +106,10 @@
     </state>
     <state x="664" y="304" key="#com.intellij.fileTypes.FileTypeChooser/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1581015278832" />
     <state x="664" y="307" key="#com.intellij.fileTypes.FileTypeChooser/1920.-91.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1580925999433" />
-    <state x="516" y="48" key="CommitChangelistDialog2" timestamp="1580958503264">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="516" y="48" key="CommitChangelistDialog2" timestamp="1581016013927">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="516" y="48" key="CommitChangelistDialog2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1581016013927" />
     <state x="516" y="48" key="CommitChangelistDialog2/1920.-91.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1580958503264" />
     <state x="322" y="243" key="FileChooserDialogImpl" timestamp="1580949603971">
       <screen x="0" y="0" width="1920" height="1050" />
