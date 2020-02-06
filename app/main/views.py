@@ -23,13 +23,3 @@ def index():
         return redirect(url_for('main.index'))
     return render_template('index.html', form=form, name=session.get('name'),
                            known=session.get('known', False), current_time=datetime.utcnow())
-
-# @main.route('/user/<name>', methods=['GET', 'POST'])
-# def get_user(name):
-#     user = User.query.filter_by(username=name).first()
-#     if user is None:
-#         user = User(username=name)
-#         db.session.add(user)
-#         db.session.commit()
-#     else:
-#         return redirect(url_for())
