@@ -1,7 +1,10 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import current_app
+from flask import current_app, request
+
+from datetime import datetime
+import hashlib
 
 from . import db
 from . import login_manager
@@ -53,13 +56,13 @@ class Role(db.Model):
     @staticmethod
     def insert_roles():
         roles = {
-            'USer': [Permission.FOLLOW, Permission.WRITE, Permission.COMMENT],
+            'User': [Permission.FOLLOW, Permission.WRITE, Permission.COMMENT],
             'Moderator': [Permission.FOLLOW, Permission.WRITE, Permission.COMMENT, Permission.MODERATE],
             'Administrator': [Permission.FOLLOW, Permission.WRITE, Permission.COMMENT, Permission.MODERATE,
                               Permission.ADMIN],
         }
 
-        default_role = 'USer'
+        default_role = 'User'
         for r in roles:
             role = Role.query.filter_by(name=r).first()
             if role is None:
@@ -75,6 +78,8 @@ class Role(db.Model):
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
+
+    # user registration information
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
@@ -82,7 +87,14 @@ class User(UserMixin, db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     confirmed = db.Column(db.Boolean, default=False)
 
-    name =
+    # user's profile content
+    name = db.Column(db.String(64))
+    location = db.Column(db.String(64))
+    about_me = db.Column(db.Text())
+    member_since = db.Column(db.DateTime(), default=datetime.utcnow)
+    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    # avatar_hash = db.Column(db.String(32))
+
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -91,11 +103,15 @@ class User(UserMixin, db.Model):
                 self.role = Role.query.filter_by(name='Administrator').first()
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
+        # if self.email is not None and self.avatar_hash is None:
+        #     self.avatar_hash = self.gravatar_hash()
 
     def __repr__(self):
         return f'<User {self.username}>'
 
     # check password consistency
+    # generate password_hash added in database when registration via generate_password_hash()
+    # verify_password() compare input password to the stored password_hash via check_password_hash
     @property
     def password(self):
         raise AttributeError('Password is not a readable attribute!')
@@ -112,6 +128,7 @@ class User(UserMixin, db.Model):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'confirm': self.id}).decode('utf-8')
 
+    #
     def confirm(self, token):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
@@ -124,11 +141,26 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         return True
 
+    # query the permission of a user
     def can(self, perm):
         return self.role is not None and self.role.has_permission(perm)
-
+    # ensure whether user is administrator
     def is_administrator(self):
         return self.can(Permission.ADMIN)
+
+    # refresh user's last visit time
+    # called before_app_request every time
+    def ping(self):
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
+
+    # def gravatar(self, size=100, default='identicon', rating='g'):
+    #     url = 'https://secure.gravatar.com/avatar'
+    #     hash = hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
+    #     return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(url=url, hash=hash,
+    #                                                                  size=size, default=default, rating=rating)
+
 
 class AnonymousUser(AnonymousUserMixin):
     def can(self, permission):
