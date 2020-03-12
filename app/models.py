@@ -95,6 +95,8 @@ class User(UserMixin, db.Model):
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     # avatar_hash = db.Column(db.String(32))
 
+    # connect 'Post' with 'User'
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -168,3 +170,13 @@ class AnonymousUser(AnonymousUserMixin):
     def is_administrator(self):
         return False
 login_manager.anonymous_user = AnonymousUser
+
+# posts will be displayed in the main page
+class Post(db.Model):
+    # store posts of users
+    __tablename__ = 'post'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    # set author as ForeignKey
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))

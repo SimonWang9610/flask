@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% import 'bootstrap/wtf.html' as wtf %}
-
+{% import '_macro.html' as macro %}
 {% block navbar %}
 {{ super() }}
 {% endblock %}
@@ -20,5 +20,16 @@
     <h1>Nice to see you first!</h1>
     {% endif %}
 </div>
-{{ wtf.quick_form(form) }}
+<div>
+    {% if current_user.can(Permission.WRITE) %}
+    {{ wtf.quick_form(form) }}
+    {% endif %}
+</div>
+<ul class="'posts">
+    {% include '_posts.html' %}}
+</ul>
+<div class="pagination">
+        {{ macro.pagination_widget(pagination, '.index') }}
+    </div>
+
 {% endblock %}
