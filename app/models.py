@@ -179,10 +179,11 @@ class Post(db.Model):
     __tablename__ = 'post'
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
+    body_html = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     # set author as ForeignKey
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    body_html = db.Column(db.Text)
+
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
