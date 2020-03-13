@@ -19,11 +19,6 @@
         Stranger
         {% endif %}!
     </h1>
-    {% if known %}
-    <p>Nice to see again!</p>
-    {% else %}
-    <h1>Nice to see you first!</h1>
-    {% endif %}
 </div>
 <div>
     {% if current_user.can(Permission.WRITE) %}

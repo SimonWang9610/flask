@@ -1,0 +1,2 @@
+1) before run the application, database must be initialized
+2) 'Role' table must be created before new users register, otherwise they can not get the right permission
