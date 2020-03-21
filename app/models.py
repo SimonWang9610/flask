@@ -109,7 +109,7 @@ class User(UserMixin, db.Model):
     followed = db.relationship('Follow', foreign_keys=[Follow.follower_id],
                                backref=db.backref('follower', lazy='joined'),
                                lazy='dynamic', cascade='all, delete-orphan')
-    followers = db.relationship('Follow', foreign_keys=[Follow.followed.id],
+    followers = db.relationship('Follow', foreign_keys=[Follow.followed_id],
                                 backref=db.backref('followed', lazy='joined'),
                                 lazy='dynamic', cascade='all, delete-orphan')
 
@@ -120,8 +120,10 @@ class User(UserMixin, db.Model):
                 self.role = Role.query.filter_by(name='Administrator').first()
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
+
         # if self.email is not None and self.avatar_hash is None:
         #     self.avatar_hash = self.gravatar_hash()
+
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -179,6 +181,25 @@ class User(UserMixin, db.Model):
     #                                                                  size=size, default=default, rating=rating)
 
     # define methods for Follow module
+    @staticmethod
+    def add_self_follow():
+        '''
+        :return: add all user as their own followers
+        '''
+        for user in User.query.all():
+            if not user.is_following(user):
+                user.follow(user)
+                db.session.add(user)
+                db.session.commit()
+
+    @ property
+    def followed_posts(self):
+        '''
+        :return: the posts of users followed by current_user
+        '''
+        return Post.query.join(Follow, Follow.followed_id == Post.author_id)\
+    .filter(Follow.follower_id == self.id)
+
     def follow(self, user):
         if not self.is_following(user):
             f =  Follow(follower=self, followed=user)

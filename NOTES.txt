@@ -1,2 +1,11 @@
 1) before run the application, database must be initialized
 2) 'Role' table must be created before new users register, otherwise they can not get the right permission
+3) one user start following others, it should update the 'User.add_self_follow()' in 'flask shell'
+
+#1) Creating functions that introduce updates to the database is a common technique
+    used to update applications that are deployed, as running a scripted update is less
+    error prone than updating databases manually.
+
+#2) app/models.py (User.followed_posts) the relationship of join operation in this database should
+       1. filter by follower_id, which means we should choose those users followed by current_user
+       2. get posts by followed_id, which means we should get posts of those users followed by current_user
