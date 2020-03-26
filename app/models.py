@@ -6,7 +6,6 @@ from markdown import markdown
 import bleach
 
 from datetime import datetime
-import hashlib
 
 from . import db
 from . import login_manager
