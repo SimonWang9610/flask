@@ -14,3 +14,17 @@
 
 simon9610.wang@gmail.com
 itec5920w
+
+
+
+//////
+1) flask shell
+    from app import db
+    db.create_all()
+    Role.insert_roles()
+    * User.add_self_follow()
+2) flask shell
+    from app.fake import users, posts
+    users(100)
+    posts(100)
+

@@ -28,7 +28,7 @@
                     Enable
                 </a>
                 {% else %}
-                <a class="btn btn-danger btn-xs href=" href="{ url_for('.moderate_disable', id=comment.id, page=page) }}">
+                <a class="btn btn-danger btn-xs" href="{{ url_for('.moderate_disable', id=comment.id, page=page) }}">
                     Disable
                 </a>
                 {% endif %}

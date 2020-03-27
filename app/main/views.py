@@ -257,7 +257,7 @@ def followers(username):
 @permission_required(Permission.MODERATE)
 def moderate():
     page = request.args.get('page', 1, type=int)
-    pagination = Comment.query.orderby(Comment.timestamp.desc()).paginate(
+    pagination = Comment.query.order_by(Comment.timestamp.desc()).paginate(
         page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'], error_out=False)
     comments = pagination.items
     return render_template('moderate.html', comments=comments, ppagination=pagination, page=page)
@@ -269,6 +269,7 @@ def moderate_enable(id):
     comment = Comment.query.get_or_404(id)
     comment.disabled = False
     db.session.add(comment)
+    db.ession.commit()
     return redirect(url_for('.moderate', page=request.args.get('page', 1, type=int)))
 
 @main.route('/moderate/disable/<int:id>')
@@ -278,5 +279,6 @@ def moderate_disable(id):
     comment = Comment.query.get_or_404(id)
     comment.disabled = True
     db.session.add(comment)
+    db.session.commit()
     return redirect(url_for('.moderate', page=request.args.get('page', 1, type=int)))
 
