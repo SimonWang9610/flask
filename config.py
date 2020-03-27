@@ -3,14 +3,16 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     SECRET_KEY = 'hardToGuessString'
+
+    SSL_REDIRECT = False
     # configure email server
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
     MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in ['true', 'on', '1']
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME', 'dengpan1002.wang@gmail.com')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'Dengpan#123')
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME', 'simon9610.wang@gmail.com')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'itec5920w')
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
-    FLASKY_MAIL_SENDER = 'Flasky Admin <use@gmail.com>'
+    FLASKY_MAIL_SENDER = 'Flasky Admin <no-reply@gmail.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     # configure database
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -61,6 +63,24 @@ class ProductionConfig(Config):
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
 
+class HerokuConfig(Config):
+
+    SSL_REDIRECT = True if os.environ.get('DYNO') else False
+
+    @classmethod
+    def init_app(cls, app):
+        ProductionConfig.init_app(app)
+
+        import logging
+        from logging import StreamHandler
+
+        file_handler = StreamHandler()
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
+
+        # handle reverse proxy server headers
+        from werkzeug.contrib.fixers import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
 
@@ -68,6 +88,7 @@ config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
-    'default': DevelopmentConfig
+    'default': DevelopmentConfig,
+    'heroku': HerokuConfig
 }
 

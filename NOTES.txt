@@ -9,3 +9,8 @@
 #2) app/models.py (User.followed_posts) the relationship of join operation in this database should
        1. filter by follower_id, which means we should choose those users followed by current_user
        2. get posts by followed_id, which means we should get posts of those users followed by current_user
+
+*** secret key = e51626e746fa4f2b9a296b0b442684c1
+
+simon9610.wang@gmail.com
+itec5920w

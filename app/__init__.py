@@ -1,6 +1,3 @@
-'''
-establish application factory methods
-'''
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
@@ -21,9 +18,14 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
 def create_app(config_name):
+    '''establish application factory methods'''
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
+
+    if app.config['SSL_REDIRECT']:
+        from flask_sslify import SSLify
+        sslify = SSLify(app)
 
     bootstrap.init_app(app)
     mail.init_app(app)
