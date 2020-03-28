@@ -52,7 +52,8 @@ class TestingConfig(Config):
 
 # configure for deploying the application as production
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABSE_URI = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    SQLALCHEMY_DATABSE_URI = os.environ.get('DATABASE_URL') or \
+                             'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 
     @classmethod
     def init_app(cls, app):
