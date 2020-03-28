@@ -20,7 +20,7 @@ migrate = Migrate(app, db)
 def deploy():
     '''Run deployment tasks'''
     # migrate the database to the latest version
-    upgrade()
+    db.create_all()
 
     #create or update user roles
     Role.insert_roles()

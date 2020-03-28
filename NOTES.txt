@@ -28,3 +28,23 @@ itec5920w
     users(100)
     posts(100)
 
+
+Host
+ec2-18-235-97-230.compute-1.amazonaws.com
+
+Database
+d2lalovofnnv81
+
+User
+wddqlqdrzlaped
+
+5432
+
+Heroku CLI
+heroku pg:psql postgresql-corrugated-27420 --app simon9610
+
+Password
+83dbf0fbac43a754de31daf6a4dfba847798ef85ab56465ff09c6945c263d4e8
+
+URI
+postgres://wddqlqdrzlaped:83dbf0fbac43a754de31daf6a4dfba847798ef85ab56465ff09c6945c263d4e8@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d2lalovofnnv81
