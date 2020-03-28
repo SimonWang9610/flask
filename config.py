@@ -1,22 +1,33 @@
 import os
+
+# create absolute path for SQLite database
+# PostgreSQL is also allowed in Development environment
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     SECRET_KEY = 'hardToGuessString'
 
     SSL_REDIRECT = False
-    # configure email server
+    # configure email server as gmail
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
     MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in ['true', 'on', '1']
+
+    # set the confirm email address
+    # a confirm link will be sent to the new register via the below email address
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME', 'simon9610.wang@gmail.com')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'itec5920w')
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
     FLASKY_MAIL_SENDER = 'Flasky Admin <no-reply@gmail.com>'
+
+    # set FLASKY_ADMIN=<your_email> : set default Admin account for the blog on windows
+    # if not set, the admin account will be 'dengpan1002.wang@gmail.com'
+    # but you still have to register the admin account in the blog to activate it
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN') or 'dengpan1002.wang@gmail.com'
     # configure database
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # set the number of content displayed in one page
     FLASK_POSTS_PER_PAGE = 10
     FLASKY_FOLLOWERS_PER_PAGE = 10
     FLASKY_COMMENTS_PER_PAGE = 5
@@ -27,12 +38,19 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+
+    # to use your local setting, postgresql_url must be 'postgresql://<user>:<password>@<host>:<port>/<database_name>'
+    # before run the application, ensure <database_name> has been created in your machine
+    # <port> is your PostgreSQL port
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:961002@localhost:5432/data'
 
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite://'
 
+# configure for deploying the application as production
 class ProductionConfig(Config):
     SQLALCHEMY_DATABSE_URI = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 
@@ -63,6 +81,8 @@ class ProductionConfig(Config):
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
 
+# configure for deploying the application on Heroku
+# some server errors will be sent to the admin account
 class HerokuConfig(Config):
 
     SSL_REDIRECT = True if os.environ.get('DYNO') else False
