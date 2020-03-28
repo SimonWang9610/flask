@@ -1,1 +1,1 @@
-web: python app_setup.py runserver 0.0.0.0:5000
+web: waitress-serve --port 5000 app_setup:app
