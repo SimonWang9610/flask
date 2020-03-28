@@ -16,7 +16,7 @@ app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db)
 
 
-@app.cli.command
+@app.cli.command()
 def deploy():
     '''Run deployment tasks'''
     # migrate the database to the latest version
@@ -28,7 +28,8 @@ def deploy():
     # ensure all users are following themselves
     User.add_self_follow()
 
-
+# register a shell context processor function
+# you can run 'flask shell' on terminal to open the interactive shell
 @app.shell_context_processor
 def make_shell_context():
     return dict(db=db, User=User, Role=Role)
@@ -45,8 +46,8 @@ def test(coverage):
         os.execvp(sys.executable, [sys.executable] +  sys.argv)
 
     import unittest
-    tests = unittest.TestLoader().discover('tests')
-    unittest.TextTestRunner(verbosity=2).run(test)
+    tests = unittest.TestLoader().discover('test')
+    unittest.TextTestRunner(verbosity=2).run(tests)
     if COV:
         COV.stop()
         COV.save()
