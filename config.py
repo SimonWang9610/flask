@@ -5,7 +5,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
-    SECRET_KEY = 'hardToGuessString'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hardToGuessString'
 
     SSL_REDIRECT = False
     # configure email server as gmail
@@ -87,6 +87,8 @@ class ProductionConfig(Config):
 class HerokuConfig(Config):
 
     SSL_REDIRECT = True if os.environ.get('DYNO') else False
+    SQLALCHEMY_DATABSE_URI = os.environ.get('DATABASE_URL') or \
+                             'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 
     @classmethod
     def init_app(cls, app):
