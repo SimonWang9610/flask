@@ -44,7 +44,7 @@ class DevelopmentConfig(Config):
     # to use your local setting, postgresql_url must be 'postgresql://<user>:<password>@<host>:<port>/<database_name>'
     # before run the application, ensure <database_name> has been created in your machine
     # <port> is your PostgreSQL port
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:961002@localhost:5432/data'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'postgresql://postgres:961002@localhost:5432/data'
 
 class TestingConfig(Config):
     TESTING = True
@@ -52,7 +52,7 @@ class TestingConfig(Config):
 
 # configure for deploying the application as production
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABSE_URI = os.environ.get('DATABASE_URL') or \
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
                              'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 
     @classmethod
@@ -87,7 +87,7 @@ class ProductionConfig(Config):
 class HerokuConfig(Config):
 
     SSL_REDIRECT = True if os.environ.get('DYNO') else False
-    SQLALCHEMY_DATABSE_URI = os.environ.get('DATABASE_URL') or \
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABSE_URI') or \
                              'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 
     @classmethod
