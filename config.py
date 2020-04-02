@@ -17,20 +17,20 @@ class Config:
     # a confirm link will be sent to the new register via the below email address
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME', 'simon9610.wang@gmail.com')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'itec5920w')
-    FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
-    FLASKY_MAIL_SENDER = 'Flasky Admin <no-reply@gmail.com>'
+    ITEC_MAIL_SUBJECT_PREFIX = '[ITEC5920]'
+    ITEC_MAIL_SENDER = 'ITEC Admin <no-reply@gmail.com>'
 
     # set FLASKY_ADMIN=<your_email> : set default Admin account for the blog on windows
     # if not set, the admin account will be 'dengpan1002.wang@gmail.com'
     # but you still have to register the admin account in the blog to activate it
-    FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN') or 'dengpan1002.wang@gmail.com'
+    ITEC_ADMIN = os.environ.get('ITEC_ADMIN') or 'dengpan1002.wang@gmail.com'
     # configure database
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # set the number of content displayed in one page
-    FLASK_POSTS_PER_PAGE = 10
-    FLASKY_FOLLOWERS_PER_PAGE = 10
-    FLASKY_COMMENTS_PER_PAGE = 5
+    ITEC_POSTS_PER_PAGE = 10
+    ITEC_FOLLOWERS_PER_PAGE = 10
+    ITEC_COMMENTS_PER_PAGE = 5
 
     @staticmethod
     def init_app(app):
@@ -71,9 +71,9 @@ class ProductionConfig(Config):
 
         mail_handler = SMTPHandler(
             mailhost=(cls.MAIL_SERVER, cls.MAIL_PORT),
-            fromaddr= cls.FLASKY_MAIL_SENDER,
-            toaddrs=[cls.FLASKY_ADMIN],
-            subject=cls.FLASKY_MAIL_SUBJECT_PREFIX + 'Application Error',
+            fromaddr= cls.ITEC_MAIL_SENDER,
+            toaddrs=[cls.ITEC_ADMIN],
+            subject=cls.ITEC_MAIL_SUBJECT_PREFIX + 'Application Error',
             credentials=credentials,
             secure=secure
         )
