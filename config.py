@@ -28,7 +28,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # set the number of content displayed in one page
-    ITEC_POSTS_PER_PAGE = 10
+    ITEC_POSTS_PER_PAGE = 5
     ITEC_FOLLOWERS_PER_PAGE = 10
     ITEC_COMMENTS_PER_PAGE = 5
 

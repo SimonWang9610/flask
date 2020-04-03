@@ -5,12 +5,13 @@
 {% block title %}ITEC - Post{% endblock %}
 {% block page_content %}
 {% include '_posts.html' %}
+<p> comments as below:</p>
+{% include '_comments.html' %}
 {% if current_user.can(Permission.COMMENT) %}
 <div class="comment-form">
     {{ wtf.quick_form(form) }}
 </div>
 {% endif %}
-{% include '_comments.html' %}
 {% if pagination %}
 <div class="pagination">
    {{ macro.pagination_widget(pagination, '.post', fragment='#comments', id=posts[0].id) }}
